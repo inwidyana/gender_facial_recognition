@@ -31,19 +31,3 @@ training_set = train_datagen.flow_from_directory(currentDirectory + '/data/test'
 test_set = test_datagen.flow_from_directory(currentDirectory + '/data/train', target_size = (64, 64), batch_size = 32, class_mode='binary')
 
 classifier.fit_generator(training_set, steps_per_epoch = 100, epochs = 2, validation_data = test_set, validation_steps = 10)
-
-import numpy as np
-from keras.preprocessing import image
-
-for i in range(1, 7):
-    test_image = image.load_img(currentDirectory + '/data/sample_input/' 'sample_input_' + str(i) + '.jpg', target_size=(64,64))
-    test_image = image.img_to_array(test_image)
-    test_image = np.expand_dims(test_image, axis=0)
-    result = classifier.predict(test_image)
-
-    if (result[0][0] >= 0.5):
-        prediction = 'woman'
-    else:
-        prediction = 'man'
-
-    print('sample_input_', i, '.jpg is a picture of a ', prediction)
